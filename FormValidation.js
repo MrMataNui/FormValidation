@@ -1,43 +1,37 @@
 'use strict';
 function getName(tag){return document.getElementsByName(tag);}
 // Checks if each input is valid
+function validity (text) {
+	return (text == null) ? text : text.join('');
+}
 function validOther (text) {
-	var other = /^[A-Za-z0-9]{1,}/.exec(text);
-	if (other == null) {return other;}
-	else {return other.join('');}
+	return validity( /^[A-Za-z0-9]{1,}/.exec(text) );
 }
 function validName (text) {
-	var other = /^[A-Za-z]{1,}/.exec(text);
-	if (other == null) {return other;}
-	else {return other.join('');}
+	return validity( /^[A-Za-z]{1,}/.exec(text) );
 }
-function validDay (text) {return /day$/.exec(text).join('');}
+function validDay (text) {
+	return validity( /day$/.exec(text) );
+}
 function validNumeric (text) {
-	var num = /^[0-9]{1,}/.exec(text);
-	if (num == null) {return num;}
-	else {return num.join('');}
+	return validity( /^[0-9]{1,}/.exec(text) );
 }
 function validNumSize (text, size) {
-	var numSize = new RegExp('^[0-9]{'+size+'}');
-	if (numSize.exec(text) == null) {return numSize.exec(text);}
-	else {return numSize.exec(text).join('');}
+	return validity( RegExp('^[0-9]{'+size+'}').exec(text) );
 }
 function validSize (text, size) {
-	var size = new RegExp('[A-Za-z0-9]{'+size+'}');
-	if (size.exec(text) == null) {return size.exec(text);}
-	else {return size.exec(text).join('');}
+	return validity( RegExp('[A-Za-z0-9]{'+size+'}').exec(text) );
 }
-function getError (loc, text, regex) {
-	this.loc = loc;
-	this.text = text;
-	this.regex = regex;
-}
-
 function init() {
-	for (var i=0; i<$('st').length; i++) {
-		$('st')[i].innerHTML = ' *';
-	}
-	submittionCheck();
+	for (var i=0; i<$('st').length; i++) {$('st')[i].innerHTML = ' *';}
+	// Form-1 submit click
+	$('#submit1').click(function() {
+		getValidation('Form-1');
+	});
+	// Form-2 submit click
+	$('#submit2').click(function() {
+		getValidation('Form-2');
+	});
 }
 // checks the validity of each input
 function checkValidity(form) {
@@ -49,21 +43,20 @@ function checkValidity(form) {
 		IDs.push( $(val).attr('id') );
 	});
 	$.each(inputs, function(key, val) {
+		console.log( $(val).is('#weekday') );
 		if (classes[key] !== undefined) {
-			if ( classes[key].indexOf('numeric')>=0 && classes[key].indexOf('required_size')<0 ) {
+			if ( $(val).is('.numeric:not(.required_size)') ) {
 				validCheck[key] = validNumeric( $(val).val() );
-			} else if ( classes[key].indexOf('required_size')>=0 && classes[key].indexOf('numeric')<0 ) {
+			} else if ( $(val).is('.required_size:not(.numeric)') ) {
 				validCheck[key] = validSize( $(val).val(), $(val).attr('maxlength') );
-			} else if ( classes[key].indexOf('required_size')>=0 && classes[key].indexOf('numeric')>=0 ) {
+			} else if ( $(val).is('.numeric.required_size') ) {
 				validCheck[key] = validNumSize( $(val).val(), $(val).attr('maxlength') );
 			} else {
 				validCheck[key] = validOther( $(val).val() );
 			}
-		} else if ( IDs[key].indexOf('firstName')>=0 ) {
+		} else if ( IDs[key].indexOf('Name')>=0 ) {
 			validCheck[key] = validName( $(val).val() );
-		} else if ( IDs[key].indexOf('lastName')>=0 ) {
-			validCheck[key] = validName( $(val).val() );
-		} else if ( IDs[key].indexOf('weekday')>=0 ) {
+		} else if ( $(val).is('#weekday') ) {
 			validCheck[key] = validDay( $(val).val() );
 		} else {
 			validCheck[key] = validOther( $(val).val() );
@@ -71,7 +64,7 @@ function checkValidity(form) {
 	});
 	return [validCheck, inputs];
 }
-// checks the validity of each input
+// Initializes the validation variables
 function initVar(inputs, validation, checks) {
 	$.each(inputs, function(key, val) {
 		checks[key] = {
@@ -88,47 +81,26 @@ function getValidation(form) {
 	var inputs = validation[1];
 	validation = validation[0];
 	var checks = initVar(inputs, validation, []);
-	console.log(checks);
-	$.each(validation, function(key, val) {});
 	errorCheck(checks, form);
-}
-function submittionCheck() {
-	// Form-1 submit click
-	$('#submit1').click(function() {
-		getValidation('Form-1');
-	});
-	// Form-2 submit click
-	$('#submit2').click(function() {
-		getValidation('Form-2');
-	});
 }
 // Checks if any of the inputs produce an error
 function errorCheck(allError, form) {
 	var errors = 0;
 	$.each(allError, function(index, element) {
-		console.log(element);
 		if (element.regex == null) {
 			displayError(element);
 			errors++;
-			// break;
-		} else {
-			deleteError(element.id);
-		}
+		} else {deleteError(element.id);}
 	});
-	$( '[name="'+form+'"]' ).submit(function( event ) {
-		if (errors==0) {
-			// getName(form).submit();
-			return;
-		} else {
-			event.preventDefault();
-		}
+	// submits the form if there are no errors
+	$( 'form [name="'+form+'"]' ).submit(function( event ) {
+		return ( errors>0 ) ? false : '';
 	});
 }
 // Displays an error for a row if it exist
 function displayError(element) {
 	$('#'+element.id).next().text(' Pease enter a valid '+element.name+'.');
 	$('#'+element.id).focus();
-	// alert(element.text+' must be filled out');
 }
 //	Removes the error text from the field
 function deleteError(id) {$('#'+id).next().text(' *');}
