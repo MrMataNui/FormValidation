@@ -1,0 +1,33 @@
+* {
+	font-family: Serif;
+	margin: 0 auto;
+}
+st, .errors {color: red;}
+.requirement, .panel-title {
+	padding-left: calc(15% + 14px);
+}
+body {
+	background-color: #a5a5a5;
+	margin: 0 auto;
+	width: 90%;
+	border: 3px solid blue;
+}
+h2 {color: red;}
+label {
+	float: left;
+	width: 15%;
+	text-align: right;
+	padding-bottom: .5em;
+}
+button[id^="submit"], .errors {
+	margin-left: calc(15% + 14px);
+}
+input[type="text"] {
+	width: 30%;
+	margin-left: 1em;
+	margin-bottom: .5em;
+}
+.panel-title {
+	font-weight:bold;
+	font-size: 150%;
+}

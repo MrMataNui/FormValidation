@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<!-- Use this html file to verify your javascript library is functional you should not need to make
+any changes to this file for your Javascript library to work -->
+<html>
+	<head>
+		<title>Validation Exercise</title>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<!-- Location of user Validation Javascript -->
+		<script type="text/javascript" src="FormValidation.js"></script>
+		<!-- Optional user Validation stylesheet -->
+		<link rel="stylesheet" href="FormValidation.css">
+		<script src='http://code.jquery.com/jquery-1.8.3.min.js'></script>
+	</head>
+	<body>
+		<br>
+		<div class="container">
+			<div class="panel panel-success">
+				<div class="panel-heading">
+					<h2 class="panel-title">Form One</h2>
+				</div>
+				<div class="panel-body">
+					<div class="errors">
+						<!-- Error messages can go here -->
+					</div>
+					<form name="Form-1">
+						<span class="requirement"><st></st> = Required input</span>
+						<div>
+							<!-- Required Field -->
+							<label for="first name">First Name : </label>
+							<input type="text" name="first name" id="firstName" required/><st></st>
+						</div>
+						<br>
+						<div>
+							<!-- Required Field -->
+							<label for="last name">Last Name : </label>
+							<input type="text" name="last name" id="lastName" required/><st></st>
+						</div>
+						<br>
+						<div>
+							<!-- Number, Minimum Length 5 -->
+							<label for="zip code">Zip Code : </label>
+							<input type="text" name="zip code" id="zip" class="numeric required_size" maxlength="5" value='21345'/><st></st>
+						</div>
+						<br>
+						<div>
+							<!-- Number, Required -->
+							<label for="employee ID">Employee ID : </label>
+							<input type="text" name="employee ID" id="ID" class="numeric"  value='21345' required/><st></st>
+						</div>
+						<br>
+						<div>
+							<button id="submit1">Validate</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="panel panel-info">
+				<div class="panel-heading">
+					<h2 class="panel-title">Form Two</h2>
+				</div>
+				<div class="panel-body">
+					<div class="errors">
+						<!-- Error messages can go here -->
+					</div>
+					<form id="Form-2">
+						<div>
+							<!-- Number, not Required -->
+							<label for="bananas">Quantity of bananas : </label>
+							<input type="text" name="bananas" id="bananas" class="numeric" />
+						</div>
+						<br>
+						<div>
+							<!-- Required Field -->
+							<label for="weekday">Weekday : </label>
+							<input type="text" name="weekday" id="weekday" required/><st></st>
+						</div>
+						<br>
+						<div>
+							<!-- Number, Required, Minimum Length 10 -->
+							<label for="phone">Phone Number : </label>
+							<input type="text" name="phone" id="phone" class="required numeric required_size" maxlength="10" /><st></st>
+						</div>
+						<br>
+						<div>
+							<!-- Minimum Length 5 Required -->
+							<label for="aplhaID">Alphanumeric ID : </label>
+							<input type="text" name="alphaID" id="alphaID" class="required_size" maxlength="5" required/><st></st>
+						</div>
+						<br>
+						<div>
+							<!-- Number, Required Size 1, not Required -->
+							<label for="painLevel">Pain Level : </label>
+							<input type="text" name="painLevel" id="painLevel" class="numeric required_size" maxlength="1" /><st></st>
+						</div>
+						<br>
+						<div>
+							<button id="submit2">Validate</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
