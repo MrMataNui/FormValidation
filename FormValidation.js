@@ -1,31 +1,31 @@
 'use strict';
 function getName(tag){return document.getElementsByName(tag);}
-
+// Checks if each input is valid
 function validOther (text) {
-	// return /^[]/.exec(text).join('');
+	var other = /^[A-Za-z0-9]{1,}/.exec(text);
+	if (other == null) {return other;}
+	else {return other.join('');}
 }
-function validDay (text) {
-	return /day$/.exec(text).join('');
+function validName (text) {
+	var other = /^[A-Za-z]{1,}/.exec(text);
+	if (other == null) {return other;}
+	else {return other.join('');}
 }
+function validDay (text) {return /day$/.exec(text).join('');}
 function validNumeric (text) {
-	if (/^[0-9]{1,}/.exec(text) == null)
-		return /^[0-9]{1,}/.exec(text);
-	if (/^[0-9]{1,}/.exec(text) == null)
-		return /^[0-9]{1,}/.exec(text).join('');
+	var num = /^[0-9]{1,}/.exec(text);
+	if (num == null) {return num;}
+	else {return num.join('');}
 }
 function validNumSize (text, size) {
 	var numSize = new RegExp('^[0-9]{'+size+'}');
-	if (numSize.exec(text) == null)
-		return numSize.exec(text);
-	else
-		return numSize.exec(text).join('');
+	if (numSize.exec(text) == null) {return numSize.exec(text);}
+	else {return numSize.exec(text).join('');}
 }
 function validSize (text, size) {
 	var size = new RegExp('[A-Za-z0-9]{'+size+'}');
-	if (size.exec(text) == null)
-		return size.exec(text);
-	else
-		return size.exec(text).join('');
+	if (size.exec(text) == null) {return size.exec(text);}
+	else {return size.exec(text).join('');}
 }
 function getError (loc, text, regex) {
 	this.loc = loc;
@@ -57,12 +57,16 @@ function checkValidity(form) {
 			} else if ( classes[key].indexOf('required_size')>=0 && classes[key].indexOf('numeric')>=0 ) {
 				validCheck[key] = validNumSize( $(val).val(), $(val).attr('maxlength') );
 			} else {
-				validCheck[key] = null;
+				validCheck[key] = validOther( $(val).val() );
 			}
+		} else if ( IDs[key].indexOf('firstName')>=0 ) {
+			validCheck[key] = validName( $(val).val() );
+		} else if ( IDs[key].indexOf('lastName')>=0 ) {
+			validCheck[key] = validName( $(val).val() );
 		} else if ( IDs[key].indexOf('weekday')>=0 ) {
 			validCheck[key] = validDay( $(val).val() );
 		} else {
-			validCheck[key] = null;
+			validCheck[key] = validOther( $(val).val() );
 		}
 	});
 	return [validCheck, inputs];
@@ -111,9 +115,14 @@ function errorCheck(allError, form) {
 			deleteError(element.id);
 		}
 	});
-	if (errors==0) {
-		// getName(form).submit();
-	}
+	$( '[name="'+form+'"]' ).submit(function( event ) {
+		if (errors==0) {
+			// getName(form).submit();
+			return;
+		} else {
+			event.preventDefault();
+		}
+	});
 }
 // Displays an error for a row if it exist
 function displayError(element) {
@@ -122,7 +131,5 @@ function displayError(element) {
 	// alert(element.text+' must be filled out');
 }
 //	Removes the error text from the field
-function deleteError(id) {
-	$('#'+id).next().text(' *');
-}
+function deleteError(id) {$('#'+id).next().text(' *');}
 window.onload = init;
