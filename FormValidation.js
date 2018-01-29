@@ -9,34 +9,35 @@ function validDay (text) { return validity( /day$/.exec(text) ); }
 function validOther (text) { return validity( /^[A-Za-z0-9]{1,}/.exec(text) ); }
 
 // checks the validity of each input
-function checkValidity(form) {
-	var inputs = $('[name="'+form+'"] input');
+function checkValidity(inputs) {
 	var validCheck = [];
 	$.each(inputs, function(key, val) {
-		if ($(val).attr('class') !== undefined)
-			if ( $(val).is('.numeric:not(.required_size)') )
-				validCheck[key] = validNumeric( $(val).val() );
-			else if ( $(val).is('.required_size:not(.numeric)') )
-				validCheck[key] = validSize( $(val).val(), $(val).attr('maxlength') );
-			else if ( $(val).is('.numeric.required_size') )
-				validCheck[key] = validNumSize( $(val).val(), $(val).attr('maxlength') );
+		if ( $(val).hasClass('required') ) {
+			if ($(val).attr('class') !== undefined)
+				if ( $(val).is('.numeric:not(.required_size)') )
+					validCheck[key] = validNumeric( $(val).val() );
+				else if ( $(val).is('.required_size:not(.numeric)') )
+					validCheck[key] = validSize( $(val).val(), $(val).attr('maxlength') );
+				else if ( $(val).is('.numeric.required_size') )
+					validCheck[key] = validNumSize( $(val).val(), $(val).attr('maxlength') );
+				else
+					validCheck[key] = validOther( $(val).val() );
+			else if ( $(val).is('#firstName, #lastName')>=0 )
+				validCheck[key] = validName( $(val).val() );
+			else if ( $(val).is('#weekday') )
+				validCheck[key] = validDay( $(val).val() );
 			else
 				validCheck[key] = validOther( $(val).val() );
-		else if ( $(val).is('#firstName, #lastName')>=0 )
-			validCheck[key] = validName( $(val).val() );
-		else if ( $(val).is('#weekday') )
-			validCheck[key] = validDay( $(val).val() );
-		else
-			validCheck[key] = validOther( $(val).val() );
+		}
 	});
-	return {validCheck: validCheck, inputs: inputs};
+	return validCheck;
 }
 // Initializes the validation variables
 function initVar(inputs, validation, checks) {
 	$.each(inputs, function(key, val) {
 		checks[key] = {
 			id:		$(val).attr('id'),
-			name:	$(val).attr('name'), 
+			name:	$(val).attr('name'),
 			regex:	validation[key]
 		};
 	});
@@ -44,19 +45,21 @@ function initVar(inputs, validation, checks) {
 }
 // Gets the validation variables
 function getValidation(form) {
-	var validation = checkValidity(form).validCheck;
-	var inputs = checkValidity(form).inputs;
-	var checks = initVar(inputs, validation, []);
+	var inputs = $('[name="'+form+'"] input');
+	var validation = checkValidity(inputs);
+	var checks = initVar( inputs, validation, [] );
 	errorCheck(checks);
 }
 // Checks if any of the inputs produce an error
 function errorCheck(checkError) {
 	var errors = 0;
 	$.each(checkError, function(index, element) {
-		if (element.regex == null) {
-			displayError(element);
-			errors++;
-		} else {deleteError(element.id);}
+		if (element.hasClass('required') ) {
+			if (element.regex == null) {
+				displayError(element);
+				errors++;
+			} else {deleteError(element.id);}
+		}
 	});
 	// submits the form if there are no errors
 	$('form').submit(function( event ) {
