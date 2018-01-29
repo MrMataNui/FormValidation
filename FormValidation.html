@@ -9,7 +9,7 @@ any changes to this file for your Javascript library to work -->
 		<script type="text/javascript" src="FormValidation.js"></script>
 		<!-- Optional user Validation stylesheet -->
 		<link rel="stylesheet" href="FormValidation.css">
-		<script src='http://code.jquery.com/jquery-1.8.3.min.js'></script>
+		<script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
 	</head>
 	<body>
 		<br>
@@ -27,13 +27,13 @@ any changes to this file for your Javascript library to work -->
 						<div>
 							<!-- Required Field -->
 							<label for="first name">First Name : </label>
-							<input type="text" name="first name" id="firstName" required/><st></st>
+							<input type="text" name="first name" id="firstName" class="required"/><st></st>
 						</div>
 						<br>
 						<div>
 							<!-- Required Field -->
 							<label for="last name">Last Name : </label>
-							<input type="text" name="last name" id="lastName" required/><st></st>
+							<input type="text" name="last name" id="lastName" class="required"/><st></st>
 						</div>
 						<br>
 						<div>
@@ -45,7 +45,7 @@ any changes to this file for your Javascript library to work -->
 						<div>
 							<!-- Number, Required -->
 							<label for="employee ID">Employee ID : </label>
-							<input type="text" name="employee ID" id="ID" class="numeric"  required/><st></st>
+							<input type="text" name="employee ID" id="ID" class="numeric required"/><st></st>
 						</div>
 						<br>
 						<div>
@@ -65,6 +65,7 @@ any changes to this file for your Javascript library to work -->
 						<!-- Error messages can go here -->
 					</div>
 					<form name="Form-2">
+						<span class="requirement"><st></st> = Required input</span>
 						<div>
 							<!-- Number, not Required -->
 							<label for="bananas">Quantity of bananas : </label>
@@ -74,19 +75,19 @@ any changes to this file for your Javascript library to work -->
 						<div>
 							<!-- Required Field -->
 							<label for="weekday">Weekday : </label>
-							<input type="text" name="weekday" id="weekday" required/><st></st>
+							<input type="text" name="weekday" id="weekday" class="required"/><st></st>
 						</div>
 						<br>
 						<div>
 							<!-- Number, Required, Minimum Length 10 -->
 							<label for="phone">Phone Number : </label>
-							<input type="text" name="phone number" id="phone" class="required numeric required_size" maxlength="10" required/><st></st>
+							<input type="text" name="phone number" id="phone" class="required numeric required_size required" maxlength="10"/><st></st>
 						</div>
 						<br>
 						<div>
 							<!-- Minimum Length 5 Required -->
 							<label for="aplhaID">Alphanumeric ID : </label>
-							<input type="text" name="Alphanumeric ID" id="alphaID" class="required_size" maxlength="5" required/><st></st>
+							<input type="text" name="Alphanumeric ID" id="alphaID" class="required_size required" maxlength="5"/><st></st>
 						</div>
 						<br>
 						<div>
