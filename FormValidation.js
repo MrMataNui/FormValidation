@@ -13,21 +13,23 @@ function checkValidity(inputs) {
   var validCheck = [];
   $.each(inputs, function (key, val) {
     if ($(val).hasClass('required')) {
-      if ($(val).attr('class') !== undefined)
-        if ($(val).is('.numeric:not(.required_size)'))
+      if ($(val).attr('class') !== undefined) {
+        if ($(val).is('.numeric:not(.required_size)')) {
           validCheck[key] = validNumeric($(val).val());
-        else if ($(val).is('.required_size:not(.numeric)'))
+        }
+      } else if ($(val).is('.required_size:not(.numeric)')) {
         validCheck[key] = validSize($(val).val(), $(val).attr('maxlength'));
-      else if ($(val).is('.numeric.required_size'))
+      } else if ($(val).is('.numeric.required_size')) {
         validCheck[key] = validNumSize($(val).val(), $(val).attr('maxlength'));
-      else
+      } else {
         validCheck[key] = validOther($(val).val());
-      else if ($(val).is('#firstName, #lastName') >= 0)
-        validCheck[key] = validName($(val).val());
-      else if ($(val).is('#weekday'))
-        validCheck[key] = validDay($(val).val());
-      else
-        validCheck[key] = validOther($(val).val());
+      }
+    } else if ($(val).is('#firstName, #lastName') >= 0) {
+      validCheck[key] = validName($(val).val());
+    } else if ($(val).is('#weekday')) {
+      validCheck[key] = validDay($(val).val());
+    } else {
+      validCheck[key] = validOther($(val).val());
     }
   });
   return validCheck;
