@@ -1,12 +1,12 @@
 'use strict';
 // Checks if each input is valid
 const validity = (text) => (text == null) ? text : text.join('');
-const validNumeric = (text) => validity(/^[0-9]{1,}/.exec(text));
-const validNumSize = (text, size) => validity(RegExp('^[0-9]{' + size + '}').exec(text));
-const validSize = (text, size) => validity(RegExp('[A-Za-z0-9]{' + size + '}').exec(text));
-const validName = (text) => validity(/^[A-Za-z]{1,}/.exec(text));
+const validNumeric = (text) => validity(/^[0-9]+/.exec(text));
+const validNumSize = (text, size) => validity(RegExp(`^[0-9]{${size}}`).exec(text));
+const validSize = (text, size) => validity(RegExp(`[A-Za-z0-9]{${size}}`).exec(text));
+const validName = (text) => validity(/^[A-Za-z]+/.exec(text));
 const validDay = (text) => validity(/day$/.exec(text));
-const validOther = (text) => validity(/^[A-Za-z0-9]{1,}/.exec(text));
+const validOther = (text) => validity(/^[A-Za-z0-9]+/.exec(text));
 
 // checks the validity of each input
 function checkValidity(inputs) {
